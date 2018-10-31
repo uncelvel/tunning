@@ -158,6 +158,6 @@ test() {
 clear
 tmp=$(mktemp)
 test | tee $tmp
-(echo "curl -Lso- https://raw.githubusercontent.com/uncelvel/tunning/master/scripts/bench_vm.sh | bash" && cat $tmp) >> result.log
+(echo "curl -Lso- https://raw.githubusercontent.com/uncelvel/tunning/master/scripts/bench_vm.sh | bash" && cat $tmp) > result.log
 cat result.log | nc termbin.com 9999
 echo "-----------------------------------"
