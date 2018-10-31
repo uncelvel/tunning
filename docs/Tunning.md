@@ -205,7 +205,7 @@ echo 0 > /sys/block/$device/queue/add_random
 echo 0 > /sys/block/$device/queue/rotational
 echo 2 > /sys/block/$device/queue/rq_affinity
 
-for device in $(find /sys/block/* | grep -E '\/nvme' ) ; do
+for device in $(find /sys/block/* | grep -E '\/sd' ) ; do
 echo 2048 > /sys/block/$device/queue/read_ahead_kb
 echo 512 > /sys/block/$device/queue/nr_requests
 echo "noop" > /sys/block/$device/queue/scheduler
@@ -249,7 +249,7 @@ exit 0
     Định nghĩa số lượng I/O có thể xếp hàng đợi tại 1 thời điểm trước khi 1 y/c đọc ghi hoăc chế độ sleep. 
     Giá trị lớn có thể tăng throuput cho các khối lượng công việc ghi nhiều tệp nhỏ. 
     Giá trị nhỏ hơn tăng throughtput cho các hoạt động I/O lớn. 
-    Cần cân nhắc đối với các hệ thống cần latency thấp thì nên giảm thông số này lại, và không sử dụng "noop"
+    Cần cân nhắc đối với các hệ thống cần latency thấp thì nên giảm thông số này lại hạn chế sử dụng "noop"
     ```
 
 - /sys/block/$device/queue/read_ahead_kb

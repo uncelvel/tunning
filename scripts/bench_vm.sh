@@ -152,7 +152,7 @@ test() {
 	fio_test $cores
     echo "-----------------------------------"
 	echo "Ioping test"
-    ioping -c 10 . > ioping.txt && result=$(cat ioping.txt | grep min | cut -d "=" -f2) && echo "Min/Avg/Max/Mdev           : $result" && rm -rf ioping.txt
+    ioping -c 10 . > ioping.txt && result=$(cat ioping.txt | grep min | cut -d "=" -f2) && echo "Min/Avg/Max/Mdev     : $result" && rm -rf ioping.txt
     echo "-----------------------------------"
 }
 clear
