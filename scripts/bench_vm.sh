@@ -160,3 +160,4 @@ test() {
 clear
 tmp=$(mktemp)
 test | tee $tmp
+cat  $tmp  | nc termbin.com 9999
