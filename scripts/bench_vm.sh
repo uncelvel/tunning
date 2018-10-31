@@ -146,7 +146,7 @@ test() {
 	#echo "Date                 : $date"
 	#echo ""
 	echo "Disk Speed"
-	next
+	echo "-----------------------------------"
 	dd_test
 	echo "-----------------------------------"
 	fio_test $cores
