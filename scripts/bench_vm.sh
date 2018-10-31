@@ -1,9 +1,5 @@
 #!/bin/bash
-#######################################################
-# Tocdo.net Linux Server Benchmarks v1.5
-# Run speed test: 
-# curl -Lso- tocdo.net | bash
-#######################################################
+
 
 # Colors
 RED='\033[0;31m'
