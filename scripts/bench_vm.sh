@@ -150,15 +150,14 @@ test() {
 	dd_test
 	echo "-----------------------------------"
 	fio_test $cores
-	echo ""
     echo "-----------------------------------"
 	echo "Ioping test"
     ioping -c 10 . > ioping.txt && result=$(cat ioping.txt | grep min | cut -d "=" -f2) && echo "Min/Avg/Max/Mdev           : $result" && rm -rf ioping.txt
-    echo ""
-    next""
+    echo "-----------------------------------"
 }
 clear
 tmp=$(mktemp)
 test | tee $tmp
 (echo "curl -Lso- https://raw.githubusercontent.com/uncelvel/tunning/master/scripts/bench_vm.sh | bash" && cat $tmp) >> result.log
 cat result.log | nc termbin.com 9999
+echo "-----------------------------------"
