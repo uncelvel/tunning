@@ -194,6 +194,38 @@ netstat -an | grep -c SYN_RECV
     Giá trị mặc định ban đầu 0
     Disable source routing
     ```
+
+So sánh các giá trị sysctl
+```sh 
+--------------------------------------------------------------------------------------------------------------------------------------------------
+                      DEFAULT                        |              CEPH TUNNING                   |            PCS Node (http://termbin.com/1l72)
+--------------------------------------------------------------------------------------------------------------------------------------------------
+kernel.pid_max = 32768 (Tuy cau hinh phan cung)      | kernel.pid_max=4194303                      | kernel.pid_max = 1048576
+fs.file-max = 98090 (Tuy cau hinh phan cung)         | fs.file-max=26234859                        | fs.file-max = 3242810
+vm.swappiness=60                                     | vm.swappiness=10                            | vm.swappiness = 60
+vm.vfs_cache_pressure = 100                          | vm.vfs_cache_pressure=1                     | vm.vfs_cache_pressure = 100
+net.core.rmem_max = 212992                           | net.core.rmem_max=56623104                  | net.core.rmem_max = 212992
+net.core.wmem_max = 212992                           | net.core.wmem_max=56623104                  | net.core.wmem_max = 212992
+net.core.rmem_default = 212992                       | net.core.rmem_default=56623104              | net.core.rmem_default = 212992
+net.core.wmem_default = 212992                       | net.core.wmem_default=56623104              | net.core.wmem_default = 212992
+net.core.optmem_max = 20480                          | net.core.optmem_max=40960                   | net.core.optmem_max = 20480
+net.ipv4.tcp_wmem = 4096	16384	4194304          | net.ipv4.tcp_wmem=4096 65536 56623104       | net.ipv4.tcp_wmem = 4096	16384	4194304
+net.ipv4.tcp_rmem = 4096	87380	6291456          | net.ipv4.tcp_rmem=4096 87380 56623104       | net.ipv4.tcp_rmem = 4096	87380	6291456
+net.ipv4.udp_rmem_min = 4096                         | net.ipv4.udp_rmem_min=8192                  | net.ipv4.udp_rmem_min = 4096
+net.ipv4.udp_wmem_min = 4096                         | net.ipv4.udp_wmem_min=8192                  | net.ipv4.udp_wmem_min = 4096
+net.core.somaxconn = 128                             | net.core.somaxconn=1024                     | net.core.somaxconn = 128
+net.core.netdev_max_backlog = 1000                   | net.core.netdev_max_backlog=50000           | net.core.netdev_max_backlog = 1000
+net.ipv4.tcp_max_syn_backlog = 128                   | net.ipv4.tcp_max_syn_backlog=30000          | net.ipv4.tcp_max_syn_backlog = 1024
+net.ipv4.tcp_max_tw_buckets = 4096                   | net.ipv4.tcp_max_tw_buckets=2000000         | net.ipv4.tcp_max_tw_buckets = 131072
+net.ipv4.tcp_tw_reuse = 0                            | net.ipv4.tcp_tw_reuse=1                     | net.ipv4.tcp_tw_reuse = 0
+net.ipv4.tcp_tw_recycle = 0                          | net.ipv4.tcp_tw_recycle=1                   | net.ipv4.tcp_tw_recycle = 0
+net.ipv4.tcp_fin_timeout = 60                        | net.ipv4.tcp_fin_timeout=10                 | net.ipv4.tcp_fin_timeout = 60
+net.ipv4.tcp_slow_start_after_idle = 1               | net.ipv4.tcp_slow_start_after_idle=0        | net.ipv4.tcp_slow_start_after_idle = 1
+net.ipv4.conf.all.send_redirects = 1                 | net.ipv4.conf.all.send_redirects=0          | net.ipv4.conf.all.send_redirects = 0
+net.ipv4.conf.all.accept_redirects = 1               | net.ipv4.conf.all.accept_redirects=0        | net.ipv4.conf.all.accept_redirects = 0
+net.ipv4.conf.all.accept_source_route = 0            | net.ipv4.conf.all.accept_source_route=0     | net.ipv4.conf.all.accept_source_route = 0
+--------------------------------------------------------------------------------------------------------------------------------------------------
+```
 ## Tunning Block Device 
 
 Mặc định các giá trị chỉnh sửa sẽ reset sau khi Server reboot để tự động điều chỉnh các tham số add các giá trị này vào `rc.local`
@@ -258,7 +290,6 @@ exit 0
     Xác định số dữ liệu sẽ được đọc trước trong quá trình đọc tuần tự. 
     Nếu các yêu cầu tiếp theo tương tự yêu cầu thứ nhất dữ liệu đã có sắn trong RAM để đọc. 
     ```
-
 
 ##  Các tham số trên Ulimit 
 
@@ -587,7 +618,7 @@ Nhằm giảm tải cho CPU, các adapter hiện đại có tính năng giảm t
 
 VD: Kernel có thể gửi các segement lên đến 64k tới NIC sau đó NIC sẽ phân tích đoạn này có kích thươc MTU size. Tính năng này được gọi là TCP Segmentation Offload (TSO)
 
-Các tính năng giảm thường được kích hoạt mặc định, và nó có cơ chế xử lý lỗi riêng.
+Các tính năng giảm thường được kích hoạt mặc định và có cơ chế xử lý lỗi riêng.
 
 ```sh 
 ethtool -k eth0
@@ -756,4 +787,9 @@ Hàng đợi được tự động cấp phát
 - https://www.kernel.org/doc/Documentation/block/queue-sysfs.txt
 - https://wiki.mikejung.biz/Ubuntu_Performance_Tuning
 - https://access.redhat.com/sites/default/files/attachments/20150325_network_performance_tuning.pdf
-- https://fatmin.com/2015/08/19/ceph-tcp-performance-tuning/
+- TCP tunning sysctl: https://fatmin.com/2015/08/19/ceph-tcp-performance-tuning/
+- Advance Tunning BlockStorage: https://www.openstack.org/assets/presentation-media/Advanced-Tuning-and-Operation-guide-for-Block-Storage-using-Ceph-Boston-2017-final.pdf
+- TCMalloc tunning: https://access.redhat.com/documentation/en-us/red_hat_ceph_storage/2/html/ceph_object_gateway_for_production/deploying_a_cluster
+- ceph osd crush tunables optimal # optimal: the best (ie optimal) values of the current version of Ceph
+http://docs.ceph.com/docs/mimic/rados/operations/crush-map-edits/
+http://docs.ceph.com/docs/jewel/rados/operations/crush-map/

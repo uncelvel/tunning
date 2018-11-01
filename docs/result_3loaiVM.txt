@@ -1,0 +1,64 @@
+# Fix:  Device /dev/sdb excluded by a filter.
+wipefs -a /dev/sdb
+
+
+openstack volume type create lvm
+openstack  volume type set lvm --property volume_backend_name=lvm
+
+### Volume-Ceph
+Disk Speed
+----------------------------------------------------------------------
+dd Test
+I/O (1st run)        : 461 MB/s
+I/O (2nd run)        : 568 MB/s
+I/O (3rd run)        : 505 MB/s
+Average              : 511.3 MB/s
+-----------------------------------
+Fio Test
+Read performance     : 66.8MB/s
+Read IOPS            : 16.3k
+Write performance    : 22.4MB/s
+Write IOPS           : 5457
+-----------------------------------
+Latency : 1.74 ms / 1.94 ms / 2.05 ms / 93.2 us
+
+
+### LVM
+
+Disk Speed
+--------------------------------------
+dd Test
+I/O (1st run)        : 112 MB/s
+I/O (2nd run)        : 117 MB/s
+I/O (3rd run)        : 116 MB/s
+Average              : 115.0 MB/s
+-----------------------------------
+Fio Test
+Read performance     : 108MB/s
+Read IOPS            : 26.4k
+Write performance    : 36.1MB/s
+Write IOPS           : 8815
+-----------------------------------
+Latency : 838.7 us / 932.5 us / 1.06 ms / 81.0 us
+
+
+
+###  Local mount xuống Ceph
+
+Disk Speed
+----------------------------------------------------------------------
+dd Test
+I/O (1st run)        : 492 MB/s
+I/O (2nd run)        : 449 MB/s
+I/O (3rd run)        : 464 MB/s
+Average              : 468.3 MB/s
+-----------------------------------
+Fio Test
+Read performance     : 70.9MB/s
+Read IOPS            : 17.3k
+Write performance    : 23.7MB/s
+Write IOPS           : 5787
+-----------------------------------
+Latency :1.51 ms / 1.63 ms / 1.74 ms / 82.1 us
+
+

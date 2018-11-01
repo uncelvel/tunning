@@ -2,8 +2,13 @@ Tham số lấy trên cụm PCS Storage
 sysctl: http://termbin.com/1l72
 block /sys/block/sda: http://termbin.com/9tor
 
+Tham số các Loại VM boot chưa tunning 
+http://paste.openstack.org/show/8cRpZfDhmOo2bwce655e/
+
+# ===================================
 # Tunning CEPH NODE 
 # Giá trị benchmark trên VM OPS 10.10.11.71 boot từ volume
+# ===================================
 
 kernel.pid_max=4194303
 http://termbin.com/u4qn
@@ -123,3 +128,166 @@ for device in $(find /sys/block/ -name "sd*" ) ; do
 echo "noop" > /sys/block/$device/queue/scheduler
 done
 http://termbin.com/108v
+
+
+
+
+===================== Clear all ======================= 
+echo > /etc/sysctl.conf
+sysctl -p 
+=======================================================
+
+### Improving Network Performance ###
+## Congestion control ##
+net.ipv4.tcp_congestion_control = htcp
+http://termbin.com/u8r9
+
+net.ipv4.tcp_timestamps = 1
+http://termbin.com/apmd
+
+net.ipv4.tcp_window_scaling = 1
+http://termbin.com/dln4
+
+net.ipv4.tcp_sack = 1
+http://termbin.com/q7q0
+ 
+ 
+## Increase socket buffer ##
+# Increase Read Memory Buffer #
+# TCP Read Memory: Min - Default - Max #
+net.ipv4.tcp_rmem = 8192 87380 16777216
+net.ipv4.tcp_rmem = 4096 87380 56623104 <==
+http://termbin.com/ygui
+
+net.ipv4.udp_rmem_min = 8192
+http://termbin.com/55le
+
+net.ipv4.udp_rmem_min = 16384
+http://termbin.com/1jup
+
+# Default read memory buffer of all receiving sockets (except TCP and UDP)
+net.core.rmem_default = 262144
+net.core.rmem_default=56623104 <==
+http://termbin.com/2is4
+
+net.core.rmem_max = 16777216
+net.core.rmem_max=56623104 <==
+http://termbin.com/eonl
+ 
+# Increase Write Memory Buffer #
+# TCP Write Memory: Min - Default - Max #
+net.ipv4.tcp_wmem = 8192 65536 16777216
+http://termbin.com/62m8
+
+net.ipv4.udp_wmem_min = 16384
+http://termbin.com/c2uxt
+
+# Default read memory buffer of all sending sockets (except TCP and UDP)
+net.core.wmem_default = 262144
+net.core.wmem_default=56623104 <==
+http://termbin.com/or4o
+
+net.core.wmem_max = 16777216
+net.core.wmem_max=56623104
+http://termbin.com/dln4
+ 
+# Increase connection queue #
+net.core.somaxconn = 16384 <= 
+http://termbin.com/8zhq
+
+net.core.somaxconn=1024
+http://termbin.com/zc0zr
+ 
+# Improve packet processing queue, speed #
+net.core.netdev_max_backlog = 16384
+net.core.netdev_max_backlog=50000 <==
+http://termbin.com/urkv
+
+net.core.dev_weight = 64
+http://termbin.com/gs7d
+ 
+## Improve connection tracking ##
+# For high-loaded servers #
+net.nf_conntrack_max = 100000
+#or
+net.netfilter.nf_conntrack_max = 100000
+==> Cannot stat add 
+ 
+# Decrease connection timeout in netfilter table #
+net.netfilter.nf_conntrack_tcp_timeout_established = 600
+==> Cannot stat add 
+ 
+## Improving Network Security ##
+# Prevent SYN Attack #
+net.ipv4.tcp_syncookies = 1
+http://termbin.com/i5wq
+
+net.ipv4.tcp_max_syn_backlog = 4096
+net.ipv4.tcp_max_syn_backlog=30000 <==
+http://termbin.com/qoam
+
+net.ipv4.tcp_syn_retries = 2
+http://termbin.com/aum0
+
+net.ipv4.tcp_synack_retries = 2
+http://termbin.com/qdw8
+ 
+## Prevent IP spoofing ##
+# Enable reverse path filter to verify IPs #
+net.ipv4.conf.all.rp_filter = 1
+http://termbin.com/2hl6
+
+net.ipv4.conf.default.rp_filter = 1
+http://termbin.com/c3nw
+
+net.ipv4.conf.all.log_martians = 1
+http://termbin.com/n41u
+
+net.ipv4.conf.default.log_martians = 1
+http://termbin.com/qkvu
+ 
+## Decrease TCP FIN timeout ##
+net.ipv4.tcp_fin_timeout = 7
+http://termbin.com/7m05
+ 
+## Decrease keep alive waiting time ##
+net.ipv4.tcp_keepalive_time = 300
+net.ipv4.tcp_keepalive_probes = 5
+net.ipv4.tcp_keepalive_intvl = 15
+http://termbin.com/91lj
+ 
+# Disable Proxy ARP #
+net.ipv4.conf.all.proxy_arp = 0
+http://termbin.com/z9qr
+ 
+### Filesystem Tuning ###
+## Increase open file limit ##
+# For web/database/log servers which need a lot of open files #
+fs.file-max = 300000
+http://termbin.com/y56d
+ 
+### Memory Tuning ###
+## Decrease swapping ##
+vm.swappiness = 10
+http://termbin.com/0uqc
+
+vm.dirty_background_ratio = 5
+http://termbin.com/wz3q
+
+vm.dirty_ratio = 10
+http://termbin.com/5g8k
+
+vm.overcommit_memory = 0
+http://termbin.com/9koa
+
+vm.overcommit_ratio = 50
+http://termbin.com/2olu
+
+
+
+
+
+
+
+
+
