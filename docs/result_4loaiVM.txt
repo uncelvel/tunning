@@ -6,6 +6,8 @@ openstack volume type create lvm
 openstack  volume type set lvm --property volume_backend_name=lvm
 
 ### Volume-Ceph
+
+curl -Lso- https://raw.githubusercontent.com/uncelvel/tunning/master/scripts/bench_vm.sh | bash
 Disk Speed
 ----------------------------------------------------------------------
 dd Test
@@ -25,6 +27,7 @@ Latency : 1.74 ms / 1.94 ms / 2.05 ms / 93.2 us
 
 ### LVM
 
+curl -Lso- https://raw.githubusercontent.com/uncelvel/tunning/master/scripts/bench_vm.sh | bash
 Disk Speed
 --------------------------------------
 dd Test
@@ -45,6 +48,7 @@ Latency : 838.7 us / 932.5 us / 1.06 ms / 81.0 us
 
 ###  Local mount xuống Ceph
 
+curl -Lso- https://raw.githubusercontent.com/uncelvel/tunning/master/scripts/bench_vm.sh | bash
 Disk Speed
 ----------------------------------------------------------------------
 dd Test
@@ -61,4 +65,23 @@ Write IOPS           : 5787
 -----------------------------------
 Latency :1.51 ms / 1.63 ms / 1.74 ms / 82.1 us
 
+###  Local trên Compute
 
+curl -Lso- https://raw.githubusercontent.com/uncelvel/tunning/master/scripts/bench_vm.sh | bash
+Disk Speed
+-----------------------------------
+dd Test
+I/O (1st run)        : 385 MB/s
+I/O (2nd run)        : 437 MB/s
+I/O (3rd run)        : 510 MB/s
+Average              : 444.0 MB/s
+-----------------------------------
+Fio Test
+Read performance     : 316MB/s
+Read IOPS            : 77.1k
+Write performance    : 105MB/s
+Write IOPS           : 25.7k
+-----------------------------------
+Ioping test
+Min/Avg/Max/Mdev     :  2.31 ms / 2.35 ms / 2.41 ms / 27.8 us
+-----------------------------------
