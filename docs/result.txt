@@ -10,6 +10,8 @@ http://paste.openstack.org/show/8cRpZfDhmOo2bwce655e/
 # Giá trị benchmark trên VM OPS 10.10.11.71 boot từ volume
 # ===================================
 
+===============================TCP, UDP, Memory lần 1=========================
+
 kernel.pid_max=4194303
 http://termbin.com/u4qn
 
@@ -85,8 +87,12 @@ http://termbin.com/knjy
 net.ipv4.conf.all.accept_source_route=0
 http://termbin.com/uf26
 
+==================Ulimit ===========================
+
 ulimit -n 10240
 http://termbin.com/k192
+
+==================Block device ===========================
 
 for device in $(find /sys/block/ -name "sd*" ) ; do 
 echo 0 > $device/queue/add_random
@@ -133,9 +139,10 @@ http://termbin.com/108v
 
 
 ===================== Clear all ======================= 
+Thực hiện trên Node Storage Ceph
 echo > /etc/sysctl.conf
 sysctl -p 
-=======================================================
+===============================TCP, UDP, Memory lần 2=========================
 
 ### Improving Network Performance ###
 ## Congestion control ##
@@ -155,8 +162,7 @@ http://termbin.com/q7q0
 ## Increase socket buffer ##
 # Increase Read Memory Buffer #
 # TCP Read Memory: Min - Default - Max #
-net.ipv4.tcp_rmem = 8192 87380 16777216
-net.ipv4.tcp_rmem = 4096 87380 56623104 <==
+net.ipv4.tcp_rmem = 4096 87380 56623104 
 http://termbin.com/ygui
 
 net.ipv4.udp_rmem_min = 8192
@@ -166,12 +172,10 @@ net.ipv4.udp_rmem_min = 16384
 http://termbin.com/1jup
 
 # Default read memory buffer of all receiving sockets (except TCP and UDP)
-net.core.rmem_default = 262144
-net.core.rmem_default=56623104 <==
+net.core.rmem_default=56623104 
 http://termbin.com/2is4
 
-net.core.rmem_max = 16777216
-net.core.rmem_max=56623104 <==
+net.core.rmem_max=56623104 
 http://termbin.com/eonl
  
 # Increase Write Memory Buffer #
@@ -183,8 +187,7 @@ net.ipv4.udp_wmem_min = 16384
 http://termbin.com/c2uxt
 
 # Default read memory buffer of all sending sockets (except TCP and UDP)
-net.core.wmem_default = 262144
-net.core.wmem_default=56623104 <==
+net.core.wmem_default=56623104
 http://termbin.com/or4o
 
 net.core.wmem_max = 16777216
@@ -192,15 +195,14 @@ net.core.wmem_max=56623104
 http://termbin.com/dln4
  
 # Increase connection queue #
-net.core.somaxconn = 16384 <= 
+net.core.somaxconn = 16384 
 http://termbin.com/8zhq
 
 net.core.somaxconn=1024
 http://termbin.com/zc0zr
  
 # Improve packet processing queue, speed #
-net.core.netdev_max_backlog = 16384
-net.core.netdev_max_backlog=50000 <==
+net.core.netdev_max_backlog=50000
 http://termbin.com/urkv
 
 net.core.dev_weight = 64
@@ -222,8 +224,7 @@ net.netfilter.nf_conntrack_tcp_timeout_established = 600
 net.ipv4.tcp_syncookies = 1
 http://termbin.com/i5wq
 
-net.ipv4.tcp_max_syn_backlog = 4096
-net.ipv4.tcp_max_syn_backlog=30000 <==
+net.ipv4.tcp_max_syn_backlog=30000 
 http://termbin.com/qoam
 
 net.ipv4.tcp_syn_retries = 2
@@ -284,10 +285,43 @@ vm.overcommit_ratio = 50
 http://termbin.com/2olu
 
 
+====================Tunned=========================
+COM: tuned-adm profile virtual-host
+Ceph: tuned-adm profile network-latency
+http://termbin.com/96xa
+
+VM: tuned-adm profile virtual-guest
+http://termbin.com/hy3u
+
+
+====================MTU ==============================
+MTU 9000 (Nexus 3000 Ceph-Com)
+1: http://termbin.com/5grv
+2: http://termbin.com/v0ry
+3: http://termbin.com/a2th
+4: http://termbin.com/73bh
+5: http://termbin.com/1ti8
+
+
+MTU 900 (IBM G8124 Ceph-Replicate)
+1: http://termbin.com/tadr
+2: http://termbin.com/6nxz
+3: http://termbin.com/4pr4
+
+=======================RBD Cached======================
+Cấu hình rbdcached trên Ceph node config 
+http://termbin.com/e7w5
+
+RBD cached trên Compute 
+1: http://termbin.com/swzi
+2: http://termbin.com/xq5r
+3: http://termbin.com/r7ix
+4: http://termbin.com/f7wo
 
 
 
-
-
-
-
+================Cài đặt lại cụm 04/11 ============
+Mô hình 3 Node Virtuozzo Storage và 1 Node Compute KVM 
+Kết quả benchmark VM 
+1: http://termbin.com/zfx9
+2: http://termbin.com/9x0x
