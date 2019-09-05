@@ -314,7 +314,7 @@ http://termbin.com/e7w5
 
 RBD cached trên Compute 
 1: http://termbin.com/swzi
-2: http://termbin.com/xq5r
+2: http://termbin.com/xq5r————————-
 3: http://termbin.com/r7ix
 4: http://termbin.com/f7wo
 
@@ -350,3 +350,12 @@ TCMALLOC 128
 http://termbin.com/j0gn
 
 Hupage tăng DD
+
+VM Result
+http://termbin.com/1jqs
+
+
+
+
+VM Hosting Viet
+http://termbin.com/avqx
